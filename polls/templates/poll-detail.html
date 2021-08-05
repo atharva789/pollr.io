@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">{{object.question}}</h6>
+    <div class="d-flex text-muted pt-3">
+
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">@{{object.creator}}</strong>
+      </p>
+    </div>
+    {% if not not_voted %}
+      {% for choice in object.choice_set.all %}
+        <div class="form-check">
+          {{ choice }}: {{  choice.option_votes}}
+        </div>
+      {% endfor %}
+
+      <a href="{% url 'polls:poll-vote' object.id %}">
+        <button type="button" class="btn btn-primary nav-item" data-toggle="button" aria-pressed="false" autocomplete="off">
+          Vote
+        </button>
+      </a>
+      {% else %}
+        <a href="{% url 'polls:poll-vote' object.id %}">
+        <button type="button" class="btn btn-primary nav-item" data-toggle="button" aria-pressed="false" autocomplete="off">
+          Vote
+        </button>
+      </a>
+      {% endif %}
+    <small class="d-block text-end mt-3">
+      <a href="{% url 'polls:polls' %}">back</a>
+    </small>
+  </div>
+</div>
+{% endblock %}

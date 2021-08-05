@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+Explore Polls
+{% endblock %}
+
+{% block content %}
+<div class="container flex">
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h5 class="border-bottom pb-2 mb-0">
+      New Polls 
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a href="{% url 'polls:poll-create' %}"><button type="button" class="btn btn-outline-primary">Create</button></a>
+      </div>
+    </h5>
+    
+    {% for poll in poll_list %}
+
+      <div class="d-flex text-muted pt-3">
+        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="36" height="36" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+        <p class="pb-3 mb-0 small lh-sm">
+          <strong class="d-block text-gray-dark">@{{poll.creator}}</strong>
+          {{poll.question}}
+        </p>
+      </div>
+
+    <div class="container border-bottom flex">
+      <div class="row justify-content-end">
+        <div class="col col-lg-2">
+          <p>
+            <a href="{% url 'polls:poll-vote' poll.id %}">
+              <button class="btn btn-primary" role="button" aria-expanded="false">
+                Vote
+              </button>
+            </a>
+              <button class="btn btn results" data-bs-toggle="collapse" href="#poll{{poll.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Results
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill icon-show" viewBox="0 0 16 16">
+                  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+              </button>
+          </p>         
+      </div>
+      <!--div class="col">
+      <a href="{% url 'polls:choice-create' %}">
+        <button type="button" class="btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+          </svg>
+        </button>
+      </a>
+      </div-->
+      <div class="container flex">
+         
+          {% for choice in poll.choice_set.all %}
+          <div class="my-3 p-3 bg-body rounded shadow-sm collapse" id="poll{{poll.id}}">
+            <h4 class="pb-3 mb-0 small lh-sm">{{choice}}: <span class="text-muted ">{{choice.option_votes}} votes</span></h4>
+          </div>
+          {% endfor %}
+          <div class="my-3 bg-body collapse" id="poll{{poll.id}}">
+          <a href="{% url 'polls:choice-create' %}">
+            <button class="btn btn-outline-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16"><path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"></svg>
+            add another option
+            </button>
+          </a>
+          </div>
+    </div>
+    </div>
+    
+    </div>
+    {% endfor %}
+    <small class="d-block text-end mt-3">
+      <a href="#">All updates</a>
+    </small>
+  </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+add poll
+{% endblock %}
+
+{% block content %}
+<div class="container flex">
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h5 class="border-bottom pb-2 mb-0">
+      Make Poll
+    </h5>
+    <div class="flex pt-3">
+      <form action="." method="post">
+        {% load widget_tweaks %}
+            {%csrf_token %}
+              {% for field in question_form %}
+                <div class=" form-group mb-3">
+                  <label for="exampleFormControlInput1" class="form-label">{{ field.label }}</label>
+                  {% if field.label == 'Question' %}
+                    {% render_field field class="form-control" placeholder="ask a question ex. Roadtrip - where to?" %}
+                    {{ field.errors }}
+                  {% elif field.label == 'Creator' %}
+                    {% render_field field class="form-control" placeholder="your name" %}
+                  {% else %}
+                    {% render_field field class="form-control" placeholder="enter a description" %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <input class="btn btn-primary" type="submit" value=" add choices">
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}

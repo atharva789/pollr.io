@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">{{question.question}}</h6>
+    <div class="d-flex text-muted pt-3">
+
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">@{{question.creator}}</strong>
+      </p>
+    </div>
+      <form action="{% url 'polls:poll-vote' question.id %}" method="post">
+      {% csrf_token %}
+    {% for choice in question.choice_set.all %}
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="choice" id="choice" value="{{choice.id}}" checked>
+        <label class="form-check-label" for="exampleRadios1">
+          {{ choice.option }}
+        </label>
+      </div>
+    {% endfor %}
+    <input type="submit" value="Vote" class="btn btn-primary nav-item" data-toggle="button" aria-pressed="false" autocomplete="off">
+    </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
